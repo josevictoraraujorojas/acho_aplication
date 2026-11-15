@@ -17,6 +17,8 @@ void main() {
     expect(find.text('achô'), findsOneWidget);
     expect(find.text('O que se perde pode\nser encontrado.'), findsOneWidget);
     expect(find.widgetWithText(FilledButton, 'Começar'), findsOneWidget);
+    expect(find.text('Já tenho uma conta?'), findsOneWidget);
+    expect(find.widgetWithText(TextButton, 'Entrar'), findsOneWidget);
 
     await tester.ensureVisible(find.text('Começar'));
     await tester.pumpAndSettle();

@@ -77,6 +77,30 @@ class BoasVindasView extends StatelessWidget {
                     onPressed: viewModel.comecar,
                     child: const Text('Começar'),
                   ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Já tenho uma conta?',
+                        style: TextStyle(
+                          color: AppTheme.textoSecundario,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'A tela de login ainda será implementada.',
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Entrar'),
+                      ),
+                    ],
+                  ),
                   if (viewModel.proximaEtapaPendente) ...[
                     const SizedBox(height: 16),
                     const Text(

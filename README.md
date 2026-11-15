@@ -8,7 +8,8 @@ Aplicativo de achados e perdidos. Este repositório contém **somente a estrutur
 lib/
 ├── main.dart
 ├── app/
-│   └── app.dart
+│   ├── app.dart
+│   └── app_router.dart
 ├── core/
 │   └── theme/
 │       └── app_theme.dart
@@ -22,17 +23,25 @@ test/
 └── boas_vindas_viewmodel_test.dart
 ```
 
-- **main.dart:** registra o `ChangeNotifierProvider` e inicia a aplicação.
-- **app/app.dart:** configura `MaterialApp` e define a tela inicial.
-- **core/theme:** centraliza o tema visual (branco e verde).
-- **views:** contém a única tela existente, sem regras de estado.
-- **viewmodels:** fornece o estado da tela usando `ChangeNotifier` e Provider.
+- **main.dart:** disponibiliza o `BoasVindasViewModel` com Provider e inicia o app.
+- **app/app.dart:** configura `MaterialApp`, o tema e a resolução de rotas.
+- **app/app_router.dart:** centraliza as rotas existentes, inicialmente apenas `/` (boas-vindas).
+- **core/theme:** centraliza as cores do Achô (branco e verde).
+- **views:** cria a interface da tela de boas-vindas.
+- **viewmodels:** controla o estado da tela usando `ChangeNotifier`.
 
-A pasta `models/` será adicionada quando existirem modelos reais do domínio, como usuário ou objeto. Não foram criados modelos artificiais.
+A pasta `models/` será criada quando existirem modelos reais do domínio, como usuário ou objeto. Não há modelos artificiais ou novas telas.
+
+## Como funciona o router
+
+Ao abrir o aplicativo, `MaterialApp` utiliza `initialRoute: AppRouter.boasVindas` (`/`).
+O `onGenerateRoute` chama `AppRouter.gerarRota`, que retorna a `BoasVindasView`.
+
+Quando a tela de login realmente existir, uma rota correspondente poderá ser adicionada ao router, e então o botão **Entrar** poderá usar `Navigator.pushNamed(context, '/login')`. **A rota de login ainda não existe.**
 
 ## Comportamento atual
 
-A tela mostra a marca Achô, uma ilustração simples, uma apresentação e o botão **Começar**. Como ainda não existe tela de autenticação, o botão apenas informa que a próxima etapa será implementada. Não há navegação fictícia.
+A tela apresenta o nome Achô, uma ilustração simples, uma apresentação e os botões **Começar** e **Entrar**. O primeiro mostra uma mensagem de etapa pendente; o segundo informa que a tela de login ainda será implementada.
 
 Nenhum cadastro, login, publicação, integração externa ou Firebase foi adicionado.
 
@@ -45,4 +54,4 @@ flutter test
 flutter analyze
 ```
 
-O `flutter pub get` instala o Provider e atualiza o `pubspec.lock` conforme a resolução local de dependências.
+Após `flutter pub get`, atualize e registre o `pubspec.lock` gerado se houver alterações.

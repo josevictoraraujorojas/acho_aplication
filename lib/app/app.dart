@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/theme/app_theme.dart';
-import '../views/boas_vindas_view.dart';
+import 'app_router.dart';
 
 class AchoApp extends StatelessWidget {
   const AchoApp({super.key});
@@ -12,7 +12,8 @@ class AchoApp extends StatelessWidget {
       title: 'Achô',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.claro,
-      home: const BoasVindasView(),
+      initialRoute: AppRouter.boasVindas,
+      onGenerateRoute: AppRouter.gerarRota,
     );
   }
 }

@@ -23,25 +23,27 @@ test/
 └── boas_vindas_viewmodel_test.dart
 ```
 
-- **main.dart:** disponibiliza o `BoasVindasViewModel` com Provider e inicia o app.
-- **app/app.dart:** configura `MaterialApp`, o tema e a resolução de rotas.
-- **app/app_router.dart:** centraliza as rotas existentes, inicialmente apenas `/` (boas-vindas).
-- **core/theme:** centraliza as cores do Achô (branco e verde).
-- **views:** cria a interface da tela de boas-vindas.
-- **viewmodels:** controla o estado da tela usando `ChangeNotifier`.
+- **main.dart:** apenas inicia o `AchoApp`.
+- **app/app.dart:** configura o `MaterialApp`, tema e roteamento.
+- **app/app_router.dart:** define as rotas e registra os Providers de cada tela.
+- **core/theme:** centraliza o tema branco e verde.
+- **views:** contém a interface de boas-vindas.
+- **viewmodels:** controla o estado da tela por meio de `ChangeNotifier`.
 
-A pasta `models/` será criada quando existirem modelos reais do domínio, como usuário ou objeto. Não há modelos artificiais ou novas telas.
+Não há Models fictícios; `models/` será criada quando houver entidades reais.
 
-## Como funciona o router
+## Roteamento e Provider
 
-Ao abrir o aplicativo, `MaterialApp` utiliza `initialRoute: AppRouter.boasVindas` (`/`).
-O `onGenerateRoute` chama `AppRouter.gerarRota`, que retorna a `BoasVindasView`.
+O `MaterialApp` usa `initialRoute: AppRouter.boasVindas` (`/`) e chama `AppRouter.gerarRota`.
+Essa rota fornece um `ChangeNotifierProvider<BoasVindasViewModel>` que envolve `BoasVindasView`.
+O ViewModel é criado ao construir a rota e descartado pelo Provider quando ela sai da árvore.
+Não é necessário registrar o mesmo ViewModel no `main.dart`.
 
-Quando a tela de login realmente existir, uma rota correspondente poderá ser adicionada ao router, e então o botão **Entrar** poderá usar `Navigator.pushNamed(context, '/login')`. **A rota de login ainda não existe.**
+Quando houver uma tela de login, poderemos adicionar sua rota e seu Provider correspondente. Por enquanto, somente a tela de boas-vindas existe.
 
 ## Comportamento atual
 
-A tela apresenta o nome Achô, uma ilustração simples, uma apresentação e os botões **Começar** e **Entrar**. O primeiro mostra uma mensagem de etapa pendente; o segundo informa que a tela de login ainda será implementada.
+O botão **Começar** apenas exibe uma mensagem de etapa pendente. O botão **Entrar** informa que o login ainda será implementado. Não há navegação para telas inexistentes.
 
 Nenhum cadastro, login, publicação, integração externa ou Firebase foi adicionado.
 
@@ -54,4 +56,4 @@ flutter test
 flutter analyze
 ```
 
-Após `flutter pub get`, atualize e registre o `pubspec.lock` gerado se houver alterações.
+Após `flutter pub get`, registre eventuais alterações em `pubspec.lock`.

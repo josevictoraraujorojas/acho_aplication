@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../viewmodels/boas_vindas_viewmodel.dart';
 import '../views/boas_vindas_view.dart';
 
-/// Centraliza as rotas do Achô.
-///
-/// Por enquanto, somente a tela de boas-vindas está implementada.
+/// Centraliza as rotas e os Providers específicos de cada tela.
 class AppRouter {
   AppRouter._();
 
@@ -15,7 +15,10 @@ class AppRouter {
       case boasVindas:
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => const BoasVindasView(),
+          builder: (_) => ChangeNotifierProvider(
+            create: (_) => BoasVindasViewModel(),
+            child: const BoasVindasView(),
+          ),
         );
       default:
         throw FlutterError('Rota não cadastrada: ${settings.name}');

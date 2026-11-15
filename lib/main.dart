@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
-import 'app/app.dart';
+import 'package:provider/provider.dart';
 
-export 'app/app.dart' show MyApp;
+import 'app/app.dart';
+import 'viewmodels/boas_vindas_viewmodel.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => BoasVindasViewModel(),
+        ),
+      ],
+      child: const AchoApp(),
+    ),
+  );
 }

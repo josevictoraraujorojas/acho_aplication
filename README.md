@@ -1,49 +1,48 @@
 # Achô — Flutter
 
-Projeto Flutter organizado no padrão **MVVM (Model–View–ViewModel)**.
+Aplicativo de achados e perdidos. Este repositório contém **somente a estrutura inicial e a tela de boas-vindas**.
 
-> **Estado atual:** o repositório contém somente a tela demonstrativa de contador criada pelo Flutter. As telas de cadastro, login, publicações e devolução planejadas para o Achô ainda não foram implementadas neste código. Esta reorganização não adiciona telas nem funcionalidades.
-
-## Estrutura
+## Estrutura MVVM com Provider
 
 ```text
 lib/
-├── main.dart                         # Entrada da aplicação
+├── main.dart
 ├── app/
-│   └── app.dart                      # MaterialApp, tema e rota inicial
-├── models/
-│   └── contador_model.dart           # Modelo de dados do contador
-├── viewmodels/
-│   └── contador_viewmodel.dart       # Estado e ações da tela
-└── views/
-    └── contador_view.dart            # Tela já existente
+│   └── app.dart
+├── core/
+│   └── theme/
+│       └── app_theme.dart
+├── views/
+│   └── boas_vindas_view.dart
+└── viewmodels/
+    └── boas_vindas_viewmodel.dart
 
 test/
-├── widget_test.dart                   # Teste de interface original
-└── contador_viewmodel_test.dart        # Teste do ViewModel
+├── widget_test.dart
+└── boas_vindas_viewmodel_test.dart
 ```
 
-## Responsabilidades do MVVM
+- **main.dart:** registra o `ChangeNotifierProvider` e inicia a aplicação.
+- **app/app.dart:** configura `MaterialApp` e define a tela inicial.
+- **core/theme:** centraliza o tema visual (branco e verde).
+- **views:** contém a única tela existente, sem regras de estado.
+- **viewmodels:** fornece o estado da tela usando `ChangeNotifier` e Provider.
 
-- **Model:** representa os dados e as regras relacionadas a esses dados, sem depender de widgets.
-- **ViewModel:** coordena o estado e as ações da interface, usando `ChangeNotifier` para informar as alterações.
-- **View:** apresenta os widgets e reage às mudanças observadas no ViewModel.
-- **App:** reúne a configuração do `MaterialApp`, sem misturar as regras da tela.
+A pasta `models/` será adicionada quando existirem modelos reais do domínio, como usuário ou objeto. Não foram criados modelos artificiais.
 
-O contador continua com o mesmo comportamento. A View chama `incrementar()` no ViewModel; o ViewModel atualiza o Model; o `AnimatedBuilder` atualiza somente o texto do contador.
+## Comportamento atual
 
-Esta organização utiliza apenas bibliotecas presentes no Flutter, sem adicionar dependências externas. Quando novas funcionalidades forem implementadas, seus modelos, telas e ViewModels poderão ser adicionados nas respectivas pastas. Serviços e repositórios de dados só devem ser introduzidos quando houver necessidade real.
+A tela mostra a marca Achô, uma ilustração simples, uma apresentação e o botão **Começar**. Como ainda não existe tela de autenticação, o botão apenas informa que a próxima etapa será implementada. Não há navegação fictícia.
 
-## Executar
+Nenhum cadastro, login, publicação, integração externa ou Firebase foi adicionado.
+
+## Executar e validar
 
 ```bash
 flutter pub get
 flutter run
-```
-
-## Testar
-
-```bash
 flutter test
 flutter analyze
 ```
+
+O `flutter pub get` instala o Provider e atualiza o `pubspec.lock` conforme a resolução local de dependências.

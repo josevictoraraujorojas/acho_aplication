@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../views/contador_view.dart';
+import '../core/theme/app_theme.dart';
+import '../views/boas_vindas_view.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AchoApp extends StatelessWidget {
+  const AchoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Achô',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.claro,
+      home: const BoasVindasView(),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:acho_aplication/app/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,10 +17,7 @@ class BoasVindasView extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 32,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Column(
@@ -74,7 +72,9 @@ class BoasVindasView extends StatelessWidget {
                   ),
                   const SizedBox(height: 50),
                   FilledButton(
-                    onPressed: viewModel.comecar,
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRouter.cadastro);
+                    },
                     child: const Text('Começar'),
                   ),
                   const SizedBox(height: 12),
@@ -83,9 +83,7 @@ class BoasVindasView extends StatelessWidget {
                     children: [
                       const Text(
                         'Já tenho uma conta?',
-                        style: TextStyle(
-                          color: AppTheme.textoSecundario,
-                        ),
+                        style: TextStyle(color: AppTheme.textoSecundario),
                       ),
                       TextButton(
                         onPressed: () {
@@ -101,17 +99,6 @@ class BoasVindasView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (viewModel.proximaEtapaPendente) ...[
-                    const SizedBox(height: 16),
-                    const Text(
-                      'A próxima etapa do aplicativo ainda será implementada.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppTheme.textoSecundario,
-                      ),
-                    ),
-                  ],
                 ],
               ),
             ),

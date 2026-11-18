@@ -7,11 +7,4 @@ class BoasVindasViewModel extends ChangeNotifier {
   bool _proximaEtapaPendente = false;
 
   bool get proximaEtapaPendente => _proximaEtapaPendente;
-
-  void comecar() {
-    if (_proximaEtapaPendente) return;
-
-    _proximaEtapaPendente = true;
-    notifyListeners();
-  }
 }

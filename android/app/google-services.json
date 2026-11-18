@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "408080654435",
+    "project_id": "acho-9d6df",
+    "storage_bucket": "acho-9d6df.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408080654435:android:c5b20c30f1736b46e8d856",
+        "android_client_info": {
+          "package_name": "com.example.acho_aplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408080654435-kub5p3egoeak82tjuqsnau5gda4s62du.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASjq0m78tjGmE4rA-0NVnFBHh2WTgmPFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408080654435-kub5p3egoeak82tjuqsnau5gda4s62du.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

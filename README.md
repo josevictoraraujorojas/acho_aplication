@@ -1,59 +1,68 @@
-# Achô — Flutter
+# Achô — aplicativo Flutter
 
-Aplicativo de achados e perdidos. Este repositório contém **somente a estrutura inicial e a tela de boas-vindas**.
+Aplicativo de achados e perdidos desenvolvido em Flutter, com **MVVM + Provider** e configuração do Firebase.
 
-## Estrutura MVVM com Provider
+## Arquitetura
+
+A organização acompanha as recomendações oficiais de arquitetura do Flutter:
+[guia](https://docs.flutter.dev/app-architecture/guide) e
+[estudo de caso](https://docs.flutter.dev/app-architecture/case-study).
+
+- **UI layer (`lib/ui/`)**: telas e ViewModels organizados por funcionalidade, com tema compartilhado em `ui/core/`.
+- **Data layer (`lib/data/`, a criar quando usada)**: Repositories e Services para acesso a Authentication, Firestore e Storage. Nenhuma View deve acessar o Firebase diretamente.
+- **Domain (`lib/domain/`, quando necessário)**: modelos de domínio compartilhados e, futuramente, regras de negócio que justifiquem uma camada própria.
+- **App (`lib/app/`)**: configuração do MaterialApp, rotas e injeção dos Providers das telas.
+- **Firebase (`lib/firebase_options.dart` e `lib/main.dart`)**: configuração gerada pelo FlutterFire e inicialização do SDK.
+
+### Arquivos existentes
 
 ```text
 lib/
 ├── main.dart
+├── firebase_options.dart
 ├── app/
 │   ├── app.dart
 │   └── app_router.dart
-├── core/
-│   └── theme/
-│       └── app_theme.dart
-├── views/
-│   └── boas_vindas_view.dart
-└── viewmodels/
-    └── boas_vindas_viewmodel.dart
+└── ui/
+    ├── core/
+    │   └── theme/
+    │       └── app_theme.dart
+    ├── boas_vindas/
+    │   ├── boas_vindas_view.dart
+    │   └── boas_vindas_viewmodel.dart
+    └── cadastro/
+        ├── cadastro_view.dart
+        └── cadastro_viewmodel.dart
 
 test/
-├── widget_test.dart
-└── boas_vindas_viewmodel_test.dart
+└── ui/
+    ├── boas_vindas/
+    └── cadastro/
 ```
 
-- **main.dart:** apenas inicia o `AchoApp`.
-- **app/app.dart:** configura o `MaterialApp`, tema e roteamento.
-- **app/app_router.dart:** define as rotas e registra os Providers de cada tela.
-- **core/theme:** centraliza o tema branco e verde.
-- **views:** contém a interface de boas-vindas.
-- **viewmodels:** controla o estado da tela por meio de `ChangeNotifier`.
+A estrutura de testes acompanha as funcionalidades presentes em `ui/`.
 
-Não há Models fictícios; `models/` será criada quando houver entidades reais.
+## Estado atual das funcionalidades
 
-## Roteamento e Provider
+- **Boas-vindas:** botão *Começar* navega para a rota `/cadastro`.
+- **Cadastro:** interface com `Form`, cinco `TextFormField`, validações locais e aceite dos termos controlado pelo `CadastroViewModel`.
+- **Provider:** ViewModels criados por rota no `AppRouter`.
+- **Firebase:** `Firebase.initializeApp` é chamado no `main.dart`; dependências para Authentication, Firestore e Storage constam no `pubspec.yaml`. As operações de autenticação, gravação e upload **ainda não foram implementadas**.
 
-O `MaterialApp` usa `initialRoute: AppRouter.boasVindas` (`/`) e chama `AppRouter.gerarRota`.
-Essa rota fornece um `ChangeNotifierProvider<BoasVindasViewModel>` que envolve `BoasVindasView`.
-O ViewModel é criado ao construir a rota e descartado pelo Provider quando ela sai da árvore.
-Não é necessário registrar o mesmo ViewModel no `main.dart`.
+Não foram criados Repositories, Services ou Models fictícios nesta reorganização; eles serão adicionados quando as operações Firebase forem implementadas de fato.
 
-Quando houver uma tela de login, poderemos adicionar sua rota e seu Provider correspondente. Por enquanto, somente a tela de boas-vindas existe.
-
-## Comportamento atual
-
-O botão **Começar** apenas exibe uma mensagem de etapa pendente. O botão **Entrar** informa que o login ainda será implementado. Não há navegação para telas inexistentes.
-
-Nenhum cadastro, login, publicação, integração externa ou Firebase foi adicionado.
-
-## Executar e validar
+## Executar
 
 ```bash
 flutter pub get
-flutter run
-flutter test
 flutter analyze
+flutter test
+flutter run
 ```
 
-Após `flutter pub get`, registre eventuais alterações em `pubspec.lock`.
+A execução depende da configuração FlutterFire em `lib/firebase_options.dart`.
+
+## Segurança
+
+`firebase_options.dart` e `android/app/google-services.json` contêm identificadores de cliente e normalmente podem ser versionados.
+Nunca publique chaves privadas administrativas, senhas, tokens secretos, credenciais de serviço ou keystores. Configure **Security Rules** adequadas no Firebase Console.

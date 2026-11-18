@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:acho_aplication/viewmodels/cadastro_viewmodel.dart';
+import 'package:acho_aplication/ui/cadastro/cadastro_viewmodel.dart';
 
 void main() {
   group('Validações do cadastro', () {

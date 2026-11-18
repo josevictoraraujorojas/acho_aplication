@@ -1,9 +1,7 @@
-import 'package:acho_aplication/app/app_router.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import '../../app/app_router.dart';
 import '../core/theme/app_theme.dart';
-import '../viewmodels/boas_vindas_viewmodel.dart';
 
 /// Primeira tela do Achô. Não implementa cadastro ou login.
 class BoasVindasView extends StatelessWidget {
@@ -11,8 +9,6 @@ class BoasVindasView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<BoasVindasViewModel>();
-
     return Scaffold(
       body: SafeArea(
         child: Center(

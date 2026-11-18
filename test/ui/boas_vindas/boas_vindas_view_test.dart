@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:acho_aplication/app/app.dart';
+import 'package:acho_aplication/ui/cadastro/cadastro_view.dart';
 
 void main() {
   testWidgets('Exibe a tela de boas-vindas do Achô', (tester) async {
-    // O Router injeta o BoasVindasViewModel; não é necessário registrá-lo aqui.
+    // O Router configura os Providers específicos de cada rota.
     await tester.pumpWidget(const AchoApp());
 
     expect(find.text('achô'), findsOneWidget);
@@ -19,9 +20,9 @@ void main() {
     await tester.tap(find.text('Começar'));
     await tester.pump();
 
-    expect(
-      find.text('A próxima etapa do aplicativo ainda será implementada.'),
-      findsOneWidget,
-    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(CadastroView), findsOneWidget);
+    expect(find.text('Criar conta'), findsOneWidget);
   });
 }

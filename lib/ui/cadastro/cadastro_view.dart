@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../core/theme/app_theme.dart';
-import '../viewmodels/cadastro_viewmodel.dart';
+import 'cadastro_viewmodel.dart';
 
 /// Formulário de cadastro do Achô.
 ///

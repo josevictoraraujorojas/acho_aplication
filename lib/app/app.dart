@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../core/theme/app_theme.dart';
+import '../ui/core/theme/app_theme.dart';
 import 'app_router.dart';
 
 class AchoApp extends StatelessWidget {

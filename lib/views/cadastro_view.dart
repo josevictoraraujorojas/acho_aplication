@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../core/theme/app_theme.dart';
+import '../viewmodels/cadastro_viewmodel.dart';
 
 /// Interface visual de cadastro, seguindo a referência do Figma.
 ///
 /// A validação e o envio dos dados serão implementados posteriormente.
-class CadastroView extends StatefulWidget {
+class CadastroView extends StatelessWidget {
   const CadastroView({super.key});
 
-  @override
-  State<CadastroView> createState() => _CadastroViewState();
-}
-
-class _CadastroViewState extends State<CadastroView> {
   static const Color _corBorda = Color(0xFFE4ECE7);
-
-  bool _aceitouTermos = false;
 
   Widget _campo({
     required String rotulo,
@@ -79,7 +74,7 @@ class _CadastroViewState extends State<CadastroView> {
     );
   }
 
-  void _avisarQueAindaNaoFoiImplementado(String mensagem) {
+  void _avisarQueAindaNaoFoiImplementado(BuildContext context, String mensagem) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(mensagem)),
     );
@@ -87,6 +82,8 @@ class _CadastroViewState extends State<CadastroView> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<CadastroViewModel>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -170,7 +167,7 @@ class _CadastroViewState extends State<CadastroView> {
                         width: 20,
                         height: 24,
                         child: Checkbox(
-                          value: _aceitouTermos,
+                          value: viewModel.aceitouTermos,
                           activeColor: AppTheme.verdePrincipal,
                           checkColor: Colors.white,
                           side: const BorderSide(
@@ -181,7 +178,9 @@ class _CadastroViewState extends State<CadastroView> {
                               MaterialTapTargetSize.shrinkWrap,
                           visualDensity: VisualDensity.compact,
                           onChanged: (valor) {
-                            setState(() => _aceitouTermos = valor ?? false);
+                            context.read<CadastroViewModel>().definirAceiteTermos(
+                              valor ?? false,
+                            );
                           },
                         ),
                       ),
@@ -202,6 +201,7 @@ class _CadastroViewState extends State<CadastroView> {
                   const SizedBox(height: 22),
                   FilledButton(
                     onPressed: () => _avisarQueAindaNaoFoiImplementado(
+                      context,
                       'O cadastro será implementado em uma próxima etapa.',
                     ),
                     child: const Text(
@@ -224,6 +224,7 @@ class _CadastroViewState extends State<CadastroView> {
                       ),
                       TextButton(
                         onPressed: () => _avisarQueAindaNaoFoiImplementado(
+                          context,
                           'A tela de login ainda será implementada.',
                         ),
                         child: const Text(

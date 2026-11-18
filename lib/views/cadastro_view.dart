@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../core/theme/app_theme.dart';
 
-/// Interface de cadastro do Achô.
+/// Interface visual de cadastro, seguindo a referência do Figma.
 ///
-/// Nesta etapa, a tela não realiza cadastro, validação ou navegação.
-/// Essas responsabilidades serão conectadas ao ViewModel posteriormente.
+/// A validação e o envio dos dados serão implementados posteriormente.
 class CadastroView extends StatefulWidget {
   const CadastroView({super.key});
 
@@ -14,17 +13,9 @@ class CadastroView extends StatefulWidget {
 }
 
 class _CadastroViewState extends State<CadastroView> {
-  static const _corBorda = Color(0xFFE4ECE7);
+  static const Color _corBorda = Color(0xFFE4ECE7);
 
-  bool _mostrarSenha = false;
-  bool _mostrarConfirmacao = false;
   bool _aceitouTermos = false;
-
-  void _mostrarFuncionalidadePendente(String mensagem) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(mensagem)),
-    );
-  }
 
   Widget _campo({
     required String rotulo,
@@ -32,8 +23,7 @@ class _CadastroViewState extends State<CadastroView> {
     TextInputType? tipoTeclado,
     TextCapitalization capitalizacao = TextCapitalization.none,
     Iterable<String>? preenchimentoAutomatico,
-    bool ocultarTexto = false,
-    Widget? iconeFinal,
+    bool senha = false,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,18 +41,19 @@ class _CadastroViewState extends State<CadastroView> {
           keyboardType: tipoTeclado,
           textCapitalization: capitalizacao,
           autofillHints: preenchimentoAutomatico,
-          obscureText: ocultarTexto,
-          autocorrect: !ocultarTexto,
-          enableSuggestions: !ocultarTexto,
+          obscureText: senha,
+          autocorrect: !senha,
+          enableSuggestions: !senha,
           decoration: InputDecoration(
             hintText: dica,
             hintStyle: const TextStyle(
               fontSize: 14,
               color: AppTheme.textoSecundario,
             ),
-            suffixIcon: iconeFinal,
+            isDense: true,
+            constraints: const BoxConstraints(minHeight: 52),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
+              horizontal: 14,
               vertical: 16,
             ),
             filled: true,
@@ -80,6 +71,7 @@ class _CadastroViewState extends State<CadastroView> {
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: _corBorda),
             ),
           ),
         ),
@@ -87,51 +79,56 @@ class _CadastroViewState extends State<CadastroView> {
     );
   }
 
+  void _avisarQueAindaNaoFoiImplementado(String mensagem) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(mensagem)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        // O Flutter cria a seta de voltar automaticamente quando
+        // esta tela é aberta sobre outra rota do Navigator.
+        automaticallyImplyLeading: true,
+        title: const Text(
+          'Criar conta',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: AppTheme.textoPrincipal,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        iconTheme: const IconThemeData(color: AppTheme.textoPrincipal),
+      ),
       body: SafeArea(
+        top: false,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 28),
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      onPressed: () => Navigator.of(context).maybePop(),
-                      tooltip: 'Voltar',
-                      icon: const Icon(Icons.arrow_back),
-                      color: AppTheme.textoPrincipal,
-                    ),
-                  ),
-                  const SizedBox(height: 18),
                   const Text(
-                    'Criar conta',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.textoPrincipal,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Faça parte do Achô e ajude objetos a voltarem '
-                    'para seus donos.',
+                    'Comece a fazer parte da comunidade.',
                     style: TextStyle(
                       fontSize: 14,
                       height: 1.5,
                       color: AppTheme.textoSecundario,
                     ),
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 22),
                   _campo(
                     rotulo: 'Nome completo',
-                    dica: 'Digite seu nome completo',
+                    dica: 'Como podemos te chamar?',
                     capitalizacao: TextCapitalization.words,
                     preenchimentoAutomatico: const [AutofillHints.name],
                   ),
@@ -145,7 +142,7 @@ class _CadastroViewState extends State<CadastroView> {
                   const SizedBox(height: 18),
                   _campo(
                     rotulo: 'Telefone',
-                    dica: '(00) 00000-0000',
+                    dica: '(DDD) 99999-9999',
                     tipoTeclado: TextInputType.phone,
                     preenchimentoAutomatico: const [
                       AutofillHints.telephoneNumber,
@@ -154,93 +151,88 @@ class _CadastroViewState extends State<CadastroView> {
                   const SizedBox(height: 18),
                   _campo(
                     rotulo: 'Senha',
-                    dica: 'Crie uma senha',
-                    ocultarTexto: !_mostrarSenha,
+                    dica: 'Crie uma senha segura',
+                    senha: true,
                     preenchimentoAutomatico: const [AutofillHints.newPassword],
-                    iconeFinal: IconButton(
-                      tooltip: _mostrarSenha ? 'Ocultar senha' : 'Mostrar senha',
-                      icon: Icon(
-                        _mostrarSenha
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
-                        color: AppTheme.textoSecundario,
-                      ),
-                      onPressed: () {
-                        setState(() => _mostrarSenha = !_mostrarSenha);
-                      },
-                    ),
                   ),
                   const SizedBox(height: 18),
                   _campo(
                     rotulo: 'Confirmar senha',
-                    dica: 'Repita sua senha',
-                    ocultarTexto: !_mostrarConfirmacao,
+                    dica: 'Digite novamente sua senha',
+                    senha: true,
                     preenchimentoAutomatico: const [AutofillHints.newPassword],
-                    iconeFinal: IconButton(
-                      tooltip: _mostrarConfirmacao
-                          ? 'Ocultar confirmação'
-                          : 'Mostrar confirmação',
-                      icon: Icon(
-                        _mostrarConfirmacao
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
-                        color: AppTheme.textoSecundario,
-                      ),
-                      onPressed: () {
-                        setState(
-                          () => _mostrarConfirmacao = !_mostrarConfirmacao,
-                        );
-                      },
-                    ),
                   ),
                   const SizedBox(height: 18),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Checkbox(
-                        value: _aceitouTermos,
-                        activeColor: AppTheme.verdePrincipal,
-                        onChanged: (valor) {
-                          setState(() => _aceitouTermos = valor ?? false);
-                        },
+                      SizedBox(
+                        width: 20,
+                        height: 24,
+                        child: Checkbox(
+                          value: _aceitouTermos,
+                          activeColor: AppTheme.verdePrincipal,
+                          checkColor: Colors.white,
+                          side: const BorderSide(
+                            color: AppTheme.verdePrincipal,
+                            width: 1,
+                          ),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          visualDensity: VisualDensity.compact,
+                          onChanged: (valor) {
+                            setState(() => _aceitouTermos = valor ?? false);
+                          },
+                        ),
                       ),
+                      const SizedBox(width: 12),
                       const Expanded(
                         child: Text(
-                          'Li e concordo com os Termos de uso '
-                          'e a Política de privacidade.',
+                          'Concordo com os termos de uso e\n'
+                          'política de privacidade.',
                           style: TextStyle(
                             fontSize: 12,
-                            height: 1.4,
+                            height: 1.25,
                             color: AppTheme.textoSecundario,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 22),
                   FilledButton(
-                    onPressed: () => _mostrarFuncionalidadePendente(
+                    onPressed: () => _avisarQueAindaNaoFoiImplementado(
                       'O cadastro será implementado em uma próxima etapa.',
                     ),
-                    child: const Text('Criar conta'),
+                    child: const Text(
+                      'Criar minha conta',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   Wrap(
                     alignment: WrapAlignment.center,
                     crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 16,
                     children: [
                       const Text(
-                        'Já tenho uma conta?',
+                        'Já possui uma conta?',
                         style: TextStyle(
-                          color: AppTheme.textoSecundario,
                           fontSize: 14,
+                          color: AppTheme.textoSecundario,
                         ),
                       ),
                       TextButton(
-                        onPressed: () => _mostrarFuncionalidadePendente(
+                        onPressed: () => _avisarQueAindaNaoFoiImplementado(
                           'A tela de login ainda será implementada.',
                         ),
-                        child: const Text('Entrar'),
+                        child: const Text(
+                          'Entrar',
+                          style: TextStyle(
+                            color: AppTheme.verdePrincipal,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ],
                   ),
